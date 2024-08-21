@@ -10,36 +10,38 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { NavLink } from 'react-router-dom';
 import SignUpModal from './signUpModal';
+import LoginModal from './loginModal';
 
 function Header(props) {
   const { sections, title } = props;
-  const [activeTab, setActiveTab] = React.useState(0);
-  const [showModal, setShowModal] = useState(false);
-  const [isSignUp, setIsSignUp] = useState(false);
+  const [activeTab, setActiveTab] = useState(0);
+  const [showSignUpModal, setShowSignUpModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(true);
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
 
   const handleOpenLogin = () => {
-    setIsSignUp(false);
-    setShowModal(true)
-};
-
-const handleOpenSignUp = () => {
-    setIsSignUp(true);
-    setShowModal(true);
+    setShowLoginModal(true);
   };
-  
+
+  const handleOpenSignUp = () => {
+    setIsSignUp(true);
+    setShowSignUpModal(true);
+  };
 
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Button 
-        onClick={handleOpenSignUp}
-        size="small">
-            Subscribe
-            </Button>
+          onClick={handleOpenSignUp}
+          variant="outlined" 
+          size="small"
+        >
+          Sign up
+        </Button>
         <Typography
           component="h1"
           variant="h1"
@@ -54,20 +56,12 @@ const handleOpenSignUp = () => {
           {/* Add icon if needed */}
         </IconButton>
         <Button 
-        variant="outlined" 
-        size="small"
-        onClick={handleOpenLogin}
+          variant="outlined" 
+          size="small"
+          onClick={handleOpenLogin}
         >
           Login
         </Button>
-        <SignUpModal
-        showModal={showModal}
-        setShowModal={setShowModal}
-        isSignUp={isSignUp}
-        setIsSignUp={setIsSignUp}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        />
       </Toolbar>
       <Toolbar
         component="nav"
@@ -97,6 +91,15 @@ const handleOpenSignUp = () => {
           </Tabs>
         </Box>
       </Toolbar>
+      <SignUpModal
+        showModal={showSignUpModal}
+        setShowModal={setShowSignUpModal}
+        isSignUp={isSignUp}
+      />
+      <LoginModal
+        showModal={showLoginModal}
+        setShowModal={setShowLoginModal}
+      />
     </React.Fragment>
   );
 }

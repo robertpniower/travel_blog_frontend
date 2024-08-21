@@ -1,103 +1,96 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { CssBaseline, Container, createTheme, ThemeProvider, Grid } from '@mui/material';
+import { CssBaseline, Container, createTheme, ThemeProvider } from '@mui/material';
 import Header from './components/Header';
-import MainFeaturedPost from './components/MainFeaturedPost';
-import FeaturedPost from './components/FeaturedPost';
-import Main from './components/Main';
-import Sidebar from './components/Sidebar';
 import Footer from './components/Footer';
-import post1 from './posts/blog-post.1.md';
-import post2 from './posts/blog-post.2.md';
-import post3 from './posts/blog-post3.md';
+import Main from './components/Main';
+import Home from './pages/Home';
+import Users from './pages/Users';
 
-const sections = [
-  { title: 'Home', url: '/' },
-  { title: 'Design', url: '/design' },
-  { title: 'Culture', url: '/culture' },
-  { title: 'Business', url: '/business' },
-  { title: 'Politics', url: '/politics' },
-  { title: 'Opinion', url: '/opinion' },
-  { title: 'Science', url: '/science' },
-  { title: 'Health', url: '/health' },
-  { title: 'Style', url: '/style' },
-  { title: 'Travel', url: '/travel' },
-];
-
-const mainFeaturedPost = {
-  title: 'Title of a longer featured blog post',
-  description:
-    "Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.",
-  image: 'https://source.unsplash.com/random?wallpapers',
-  imageText: 'main image description',
-  linkText: 'Continue reading…',
-};
-
-const featuredPosts = [
-  {
-    title: 'Featured post',
-    date: 'Nov 12',
-    description:
-      'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    image: 'https://source.unsplash.com/random?wallpapers',
-    imageLabel: 'Image Text',
-  },
-  {
-    title: 'Post title',
-    date: 'Nov 11',
-    description:
-      'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    image: 'https://source.unsplash.com/random?wallpapers',
-    imageLabel: 'Image Text',
-  },
-];
-
-const posts = [post1, post2, post3];
-
-const sidebar = {
-  title: 'About',
-  description:
-    'Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.',
-  archives: [
-    { title: 'March 2020', url: '#' },
-    { title: 'February 2020', url: '#' },
-    { title: 'January 2020', url: '#' },
-  ],
+const fetchData = async () => {
+  return {
+    sections: [
+      { title: 'Home', url: '/' },
+      { title: 'Users', url: '/users' },
+      { title: 'Destinations', url: '/destinations' },
+      { title: 'Travel', url: '/travel' },
+      { title: 'About', url: '/about' },
+      
+    ],
+    mainFeaturedPost: {
+      title: 'Exploring the Wonders of the World',
+      description:
+        "Discover the most amazing places around the globe. Dive into travel stories, tips, and much more!",
+      image: 'https://source.unsplash.com/random?travel',
+      imageText: 'main image description',
+      linkText: 'Continue reading…',
+    },
+    featuredPosts: [
+      {
+        title: 'A Journey through the Alps',
+        date: 'Aug 18',
+        description:
+          'An unforgettable experience in the heart of Europe. From snow-capped peaks to lush valleys, explore the beauty of the Alps.',
+        image: 'https://source.unsplash.com/random?alps',
+        imageLabel: 'Image Text',
+      },
+      {
+        title: 'Exploring the Amazon Rainforest',
+        date: 'Jul 24',
+        description:
+          'Discover the biodiversity and adventure of the Amazon. A trek into the wild that you’ll never forget.',
+        image: 'https://source.unsplash.com/random?rainforest',
+        imageLabel: 'Image Text',
+      },
+    ],
+    posts: [
+      'Post content for travel-related story 1',
+      'Post content for travel-related story 2',
+      'Post content for travel-related story 3',
+    ],
+    sidebar: {
+      title: 'About',
+      description:
+        'This travel blog is dedicated to sharing experiences from all around the world. Whether you are looking for inspiration for your next trip or just want to enjoy amazing stories, you’ve come to the right place!',
+      archives: [
+        { title: 'March 2024', url: '#' },
+        { title: 'February 2024', url: '#' },
+        { title: 'January 2024', url: '#' },
+      ],
+    },
+  };
 };
 
 const defaultTheme = createTheme();
 
-export default function Blog() {
+export default function App() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const getData = async () => {
+      const result = await fetchData();
+      setData(result);
+    };
+    getData();
+  }, []);
+
+  if (!data) return <div>Loading...</div>;
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <Router>
         <Container maxWidth="lg">
-          <Header title="Travel Blog" sections={sections} />
+          <Header title="Travel Blog" sections={data.sections} />
           <Routes>
-            <Route
-              path="/"
-              element={
-                <main>
-                  <MainFeaturedPost post={mainFeaturedPost} />
-                  <Grid container spacing={4}>
-                    {featuredPosts.map((post) => (
-                      <FeaturedPost key={post.title} post={post} />
-                    ))}
-                  </Grid>
-                  <Grid container spacing={5} sx={{ mt: 3 }}>
-                    <Main title="From the firehose" posts={posts} />
-                    <Sidebar
-                      title={sidebar.title}
-                      description={sidebar.description}
-                      archives={sidebar.archives}
-                    />
-                  </Grid>
-                </main>
-              }
-            />
-            {sections.map((section) => (
-              <Route key={section.title} path={section.url} element={<Main title={section.title} posts={posts} />} />
+            <Route path="/" element={<Home data={data} />} />
+            <Route path="/users" element={<Users />} />
+            {data.sections.map((section) => (
+              <Route
+                key={section.title}
+                path={section.url}
+                element={<Main title={section.title} posts={data.posts} />}
+              />
             ))}
           </Routes>
         </Container>

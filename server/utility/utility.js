@@ -5,9 +5,9 @@ class Utility {
     async userExists(email) {
         const query = 'SELECT * drom users WHER email = ?';
         try {
-            const [rowa] = await connection.execute(query, [email]);
+            const [rows] = await connection.execute(query, [email]);
             return rows.length > 0;
-        } catch (error) {
+        } catch (err) {
             console.error('Error checking if user exists:', err);
             throw err;
         }
