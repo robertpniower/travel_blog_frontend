@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Box, Button, Typography, Modal, Grid, IconButton, Avatar } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import InputField from './inputField';
-import AvatarPicker from './AvatarPicker';
+
 
 const style = {
     position: 'absolute',
@@ -25,7 +25,7 @@ export default function LoginModal({ showModal, setShowModal, isSignUp, setIsSig
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [avatar, setAvatar] = useState('');
-    const [avatarPicker, setAvatarPicker] = useState(false);
+   
 
 
 
@@ -35,10 +35,7 @@ export default function LoginModal({ showModal, setShowModal, isSignUp, setIsSig
         setTimeout(handleClose, 300);
     };
 
-    const handleAvatarSelect = (avatarUrl) => {
-        setAvatar(avatarUrl);
-        console.log(avatar)
-    };
+    
 
     const handleSubmit = async () => {
         try {

@@ -14,6 +14,8 @@ const fetchData = async () => {
       { title: 'Users', url: '/users' },
       { title: 'Destinations', url: '/destinations' },
       { title: 'Travel', url: '/travel' },
+      { title: 'Travel Tips', url: '/travel_tips' },
+      { title: 'Gear', url: '/gear' },
       { title: 'About', url: '/about' },
       
     ],
@@ -21,9 +23,8 @@ const fetchData = async () => {
       title: 'Exploring the Wonders of the World',
       description:
         "Discover the most amazing places around the globe. Dive into travel stories, tips, and much more!",
-      image: 'https://source.unsplash.com/random?travel',
+      image: '/PANO_20240815_123117.jpg',
       imageText: 'main image description',
-      linkText: 'Continue reading…',
     },
     featuredPosts: [
       {
