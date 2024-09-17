@@ -85,7 +85,7 @@ function Header(props) {
                 component={NavLink}
                 to={section.url}
                 value={index}
-                sx={{ p: 1, flexShrink: 0 }}
+                sx={{ p: 2, flexShrink: 0 }}
               />
             ))}
           </Tabs>

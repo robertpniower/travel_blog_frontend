@@ -12,7 +12,7 @@ const Home = ({ data }) => {
   return (
     <main>
       <MainFeaturedPost post={mainFeaturedPost} />
-      <Grid container spacing={4}>
+      <Grid container spacing={5} sx={{ mt: 3 }}>
         {featuredPosts.map((post) => (
           <FeaturedPost key={post.title} post={post} />
         ))}
