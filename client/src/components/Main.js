@@ -23,7 +23,6 @@ function Main(props) {
         {title}
       </Typography>
       <Divider />
-     
     </Grid>
   );
 }

@@ -3,61 +3,26 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { CssBaseline, createTheme, ThemeProvider, Container } from '@mui/material';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Main from './components/Main';
+
+
 import Home from './pages/Home';
 import Users from './pages/Users';
+import About from './pages/About'; // Example component for the About page
+import Posts from './pages/Posts'; // Example component for the Posts page
+import Destinations from './pages/Destinations'; // Example component for the Destinations page
+import Travel from './pages/Travel'; // Example component for the Travel page
 
 const fetchData = async () => {
   return {
     sections: [
-      { title: 'Home', url: '/' },
-      { title: 'Users', url: '/users' },
-      { title: 'Destinations', url: '/destinations' },
-      { title: 'Travel', url: '/travel' },
-      { title: 'About', url: '/about' },
+      { title: 'Home', url: '/', component: Home },
+      { title: 'Users', url: '/users', component: Users },
+      { title: 'Posts', url: '/posts', component: Posts },
+      { title: 'Destinations', url: '/destinations', component: Destinations },
+      { title: 'Travel', url: '/travel', component: Travel },
+      { title: 'About us', url: '/about', component: About },
     ],
-    mainFeaturedPost: {
-      title: 'Exploring the Wonders of the World',
-      description:
-        "Discover the most amazing places around the globe. Dive into travel stories, tips, and much more!",
-      image: '/PANO_20240815_123117.jpg',
-      imageText: 'main image description',
-      linkText: 'Continue reading…',
-    },
-    featuredPosts: [
-      {
-        title: 'A Journey through the Alps',
-        date: 'Aug 18',
-        description:
-          'An unforgettable experience in the heart of Europe. From snow-capped peaks to lush valleys, explore the beauty of the Alps.',
-        image: '/icons/002-hiking.png',
-        imageLabel: 'Image Text',
-      },
-      {
-        title: 'Exploring the Amazon Rainforest',
-        date: 'Jul 24',
-        description:
-          'Discover the biodiversity and adventure of the Amazon. A trek into the wild that you’ll never forget.',
-        image: '/icons/009-map.png',
-        imageLabel: 'Image Text',
-      },
-    ],
-    posts: [
-      'Post content for travel-related story 1',
-      'Post content for travel-related story 2',
-      'Post content for travel-related story 3',
-    ],
-    sidebar: {
-      title: 'About',
-      description:
-        'This travel blog is dedicated to sharing experiences from all around the world. Whether you are looking for inspiration for your next trip or just want to enjoy amazing stories, you’ve come to the right place!',
-      archives: [
-        { title: 'March 2024', url: '#' },
-        { title: 'February 2024', url: '#' },
-        { title: 'January 2024', url: '#' },
-      ],
-    },
-  };
+  }
 };
 
 const defaultTheme = createTheme({
@@ -116,7 +81,7 @@ export default function App() {
       <CssBaseline />
       <Router>
         <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-          <Header title="Travel Blog" sections={data.sections} />
+          <Header title="Wanderlust Abroad" sections={data.sections} />
           <main style={{ flex: 1 }}>
             <Container
               sx={{
@@ -134,13 +99,12 @@ export default function App() {
               }}
             >
               <Routes>
-                <Route path="/" element={<Home data={data} />} />
-                <Route path="/users" element={<Users title={'Users'} />} />
+                {/* Render the component for each section dynamically */}
                 {data.sections.map((section) => (
                   <Route
                     key={section.title}
                     path={section.url}
-                    element={<Main title={section.title} posts={data.posts} />}
+                    element={<section.component />} // Render the component based on section data
                   />
                 ))}
               </Routes>

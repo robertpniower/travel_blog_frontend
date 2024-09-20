@@ -35,9 +35,9 @@ function Header(props) {
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Button 
+        <Button
           onClick={handleOpenSignUp}
-          variant="outlined" 
+          variant="outlined"
           size="small"
         >
           Sign up
@@ -48,15 +48,22 @@ function Header(props) {
           color="inherit"
           align="center"
           noWrap
-          sx={{ flex: 1 }}
+          sx={{
+            flex: 1,
+            fontFamily: "Gloria Hallelujah", // Google Font
+            fontWeight: '400',
+            fontSize: '4.5rem',
+            color: '#1aab71', // Custom color
+            mb: 3,
+            mt: 2,
+          }}
         >
           {title}
         </Typography>
         <IconButton>
-          {/* Add icon if needed */}
         </IconButton>
-        <Button 
-          variant="outlined" 
+        <Button
+          variant="outlined"
           size="small"
           onClick={handleOpenLogin}
         >
@@ -66,9 +73,9 @@ function Header(props) {
       <Toolbar
         component="nav"
         variant="dense"
-        sx={{ 
-          justifyContent: 'center', // Center the tabs
-          overflowX: 'auto' 
+        sx={{
+          justifyContent: 'center',
+          overflowX: 'auto',
         }}
       >
         <Box sx={{ borderBottom: 1, borderColor: 'divider', flexGrow: 1 }}>
@@ -77,6 +84,18 @@ function Header(props) {
             onChange={handleTabChange}
             aria-label="sections tabs"
             centered
+            sx={{
+              '.Mui-selected': {
+                color: '#1aab71', // Active tab color
+                borderBottom: '3px solid #1aab71', // Active tab underline
+              },
+              '.MuiTab-root': {
+                textTransform: 'none',
+                color: '#1A86AB', // Inactive tab color
+                fontSize: '1rem',
+                fontWeight: 500,
+              },
+            }}
           >
             {sections.map((section, index) => (
               <Tab
@@ -85,7 +104,14 @@ function Header(props) {
                 component={NavLink}
                 to={section.url}
                 value={index}
-                sx={{ p: 2, flexShrink: 0 }}
+                sx={{
+                  p: 2,
+                  flexShrink: 0,
+                  mr: 4,
+                  '&:hover': {
+                    color: '#1AABA1', // Hover effect color
+                  },
+                }}
               />
             ))}
           </Tabs>

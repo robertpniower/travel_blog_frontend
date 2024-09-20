@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 
+
 function MainFeaturedPost(props) {
   const { post } = props;
 
@@ -47,7 +48,10 @@ function MainFeaturedPost(props) {
                 variant="h1"
                 color="inherit"
                 gutterBottom
-                sx={{ fontWeight: 'bold' }}
+                sx={{ 
+                  fontWeight: 'bold',
+                  fontFamily: 'Merriweather'
+                 }}
               >
                 {post.title}
               </Typography>
@@ -59,15 +63,11 @@ function MainFeaturedPost(props) {
         sx={{
           position: 'relative',
           pt: 3,
-          mb: 7,
-          height: '150px',
+          m: 3,
+          height: '100px',
           borderBottom: '1px solid #000',
         }}
       >
-        <Box
-          sx={{
-          }}
-        />
 
         <Box
           sx={{
@@ -76,13 +76,21 @@ function MainFeaturedPost(props) {
             textAlign: 'center'
           }}
         >
-          <Typography
-            component="h1"
-            variant="h4"
-            sx={{ fontWeight: 'bold' }}
-          >
-            {post.description}
-          </Typography>
+
+        
+            <Typography
+              component="h1"
+              variant="h6"
+              sx={{
+
+                fontFamily: 'Merriweather',
+                fontStyle: 'italic'
+              }}
+            >
+              {post.description}
+            </Typography>
+
+        
         </Box>
 
       </Box>

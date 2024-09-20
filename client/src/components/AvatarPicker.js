@@ -14,6 +14,7 @@ const AvatarPicker = ({ handleAvatarSelect, avatarPicker, setAvatarPicker, style
                 const avatarUrl = createAvatar(avataaars, {
                     seed: `avatar${i}`,
                     size: 128,
+                    mouth: ['smile']
                 }).toDataUri();
                 avatars.push(avatarUrl);
             }
