@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -10,11 +11,25 @@ import Box from '@mui/material/Box';
 
 function FeaturedPost(props) {
   const { post } = props;
+  const navigate = useNavigate();
+
+  const handleArticleClick = (articleId) => {
+    navigate(`/article/${articleId}`); // Navigate to the article page with articleId as a param
+  };
 
   return (
-    <Grid item xs={12} md={6}>
+    <Grid item xs={12} sm={6} md={6} display="flex" >
       <CardActionArea component="a" href="#">
-        <Card sx={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
+        <Card
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            height: '100%'
+          }}
+          onClick={() => handleArticleClick(post.id)}
+        >
           <Box sx={{
             position: 'absolute',
             backgroundColor: '#cacccb',
@@ -24,10 +39,10 @@ function FeaturedPost(props) {
             top: 5,
             left: '50%',
             transform: 'translateX(-50%)',
-            transition: 'transform 0.3s ease, opacity 0.3s ease', 
+            transition: 'transform 0.3s ease, opacity 0.3s ease',
             '&:hover': {
-              transform: 'translateX(-50%) scale(1.1)', 
-              backgroundColor: "#bfbfbf", 
+              transform: 'translateX(-50%) scale(1.1)',
+              backgroundColor: "#bfbfbf",
             },
           }}>
             <Box
@@ -53,7 +68,7 @@ function FeaturedPost(props) {
               {post.title}
             </Typography>
             <Typography variant="subtitle1" paragraph sx={{ mt: 2 }}>
-              {post.description}
+              {post.content}
             </Typography>
 
             <CardMedia
@@ -75,8 +90,10 @@ function FeaturedPost(props) {
 
 FeaturedPost.propTypes = {
   post: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     date: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+
     image: PropTypes.string,
     imageLabel: PropTypes.string,
     title: PropTypes.string.isRequired,

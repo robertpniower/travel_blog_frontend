@@ -1,13 +1,38 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 
+const fetchData = async () => {
+  return {
+    mainFeaturedPost: {
+      title: 'Exploring the Wonders of the World',
+      description:
+        "Discover the most amazing places around the globe. Dive into travel stories, tips, and much more!",
+      image: '/PANO_20240815_123117.jpg',
+      imageText: 'main image description',
+      linkText: 'Continue reading…',
+    },
+  };
+};
 
-function MainFeaturedPost(props) {
-  const { post } = props;
+function MainFeaturedPost() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const getData = async () => {
+      const result = await fetchData();
+      setData(result.mainFeaturedPost); // Set the mainFeaturedPost directly to data
+    };
+    getData();
+  }, []);
+
+  // Check if data is null and return a loading state or fallback UI
+  if (!data) {
+    return <Typography>Loading...</Typography>; // You can customize this as needed
+  }
 
   return (
     <div>
@@ -21,10 +46,10 @@ function MainFeaturedPost(props) {
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
-          backgroundImage: `url(${post.image})`,
+          backgroundImage: `url(${data.image})`, // Accessing data.image is now safe
         }}
       >
-        {<img style={{ display: 'none' }} src={post.image} alt={post.imageText} />}
+        {<img style={{ display: 'none' }} src={data.image} alt={data.imageText} />}
         <Box
           sx={{
             position: 'absolute',
@@ -51,9 +76,9 @@ function MainFeaturedPost(props) {
                 sx={{ 
                   fontWeight: 'bold',
                   fontFamily: 'Merriweather'
-                 }}
+                }}
               >
-                {post.title}
+                {data.title}
               </Typography>
             </Box>
           </Grid>
@@ -68,35 +93,26 @@ function MainFeaturedPost(props) {
           borderBottom: '1px solid #000',
         }}
       >
-
         <Box
           sx={{
             position: 'relative',
             alignItems: 'center',
-            textAlign: 'center'
+            textAlign: 'center',
           }}
         >
-
-        
-            <Typography
-              component="h1"
-              variant="h6"
-              sx={{
-
-                fontFamily: 'Merriweather',
-                fontStyle: 'italic'
-              }}
-            >
-              {post.description}
-            </Typography>
-
-        
+          <Typography
+            component="h1"
+            variant="h6"
+            sx={{
+              fontFamily: 'Merriweather',
+              fontStyle: 'italic',
+            }}
+          >
+            {data.description}
+          </Typography>
         </Box>
-
       </Box>
     </div>
-
-
   );
 }
 

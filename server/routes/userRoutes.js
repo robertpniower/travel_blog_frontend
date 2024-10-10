@@ -1,5 +1,4 @@
 const express = require('express')
-const userController = require('../controllers/userController.js');
 const validateUser = require('../middleware/validateUser.js');
 const UserController = require('../controllers/userController.js');
 
@@ -8,7 +7,7 @@ const router = express.Router();
 router.post('/users/create', async (req, res) => {
     const { name, email, password, role, avatar_url } = req.body;
     try {
-      const userId = await userController.createUser(name, email, password, role, avatar_url);
+      const userId = await UserController.createUser(name, email, password, role, avatar_url);
       res.status(201).json({ message: 'User created successfully', userId });
     } catch (err) {
       res.status(500).json({ error: 'Error creating user' });
@@ -16,10 +15,10 @@ router.post('/users/create', async (req, res) => {
   });
 
 
-  router.get('/users/:id', async (req, res) => {
+  router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const user = await userController.getUserById(id);
+    const user = await UserController.getUserById(id);
     if (user) {
       res.status(200).json(user);
     } else {
@@ -30,9 +29,9 @@ router.post('/users/create', async (req, res) => {
   }
 });
 
-router.get('/users', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
-        const users = await userController.getAllUsers();
+        const users = await UserController.getAllUsers();
         if (users) {
             res.status(200).json(users);
           } else {
@@ -43,7 +42,7 @@ router.get('/users', async (req, res) => {
     }
 })
 
-router.put('/users/update/:id', async (req, res) => {
+router.put('/update/:id', async (req, res) => {
     const { id } = req.params;
     const { name, email, password, role, avatar_url } = req.body;
     try {

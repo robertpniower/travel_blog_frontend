@@ -57,6 +57,7 @@ export default function SignUpModal({ showModal, setShowModal, isSignUp, user })
         console.log('User updated:', response.data);
       }
       handleClose();
+      window.location.reload();
     } catch (error) {
       console.error('Error creating/updating user:', error);
     }

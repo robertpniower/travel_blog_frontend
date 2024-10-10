@@ -11,13 +11,15 @@ import About from './pages/About'; // Example component for the About page
 import Posts from './pages/Posts'; // Example component for the Posts page
 import Destinations from './pages/Destinations'; // Example component for the Destinations page
 import Travel from './pages/Travel'; // Example component for the Travel page
+import Article from './pages/Article';
+import ArticleForm from './pages/ArticleForm'
 
 const fetchData = async () => {
   return {
     sections: [
       { title: 'Home', url: '/', component: Home },
       { title: 'Users', url: '/users', component: Users },
-      { title: 'Posts', url: '/posts', component: Posts },
+      { title: 'Posts', url: '/articles', component: Posts },
       { title: 'Destinations', url: '/destinations', component: Destinations },
       { title: 'Travel', url: '/travel', component: Travel },
       { title: 'About us', url: '/about', component: About },
@@ -107,7 +109,10 @@ export default function App() {
                     element={<section.component />} // Render the component based on section data
                   />
                 ))}
+                 <Route path="/article/:articleId" element={<Article />} />
+                 <Route path="/article-form" element={<ArticleForm />} />
               </Routes>
+             
             </Container>
           </main>
           <Footer title="Footer" description="Something here to give the footer a purpose!" />

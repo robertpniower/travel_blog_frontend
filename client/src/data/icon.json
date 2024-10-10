@@ -1,0 +1,37 @@
+{
+    "hiking_icon": {
+        "category": "hiking",
+        "url": "/icons/002-hiking.png",
+        "alt": "Hiking Icon"
+    },
+    "swimming_icon": {
+        "category": "beach",
+        "url": "/icons/001-swimming.png",
+        "alt": "Swimming Icon"
+    },
+    "buildings_icon": {
+        "category": "city",
+        "url": "/icons/003-buildings.png",
+        "alt": "Buildings Icon"
+    },
+    "dog_icon": {
+        "category": "with_animal",
+        "url": "/icons/004-dog-walking.png",
+        "alt": "Dog Icon"
+    },
+    "sunset_icon": {
+        "category": "beach",
+        "url": "/icons/005-sunset.png",
+        "alt": "Sunset Icon"
+    },
+    "food_icon": {
+        "category": "food",
+        "url": "/icons/006-fast-food.png",
+        "alt": "Fast Food Icon"
+    },
+    "backpack_icon": {
+        "category": "travel",
+        "url": "/icons/007-backpack.png",
+        "alt": "Backpack Icon"
+    }
+}
