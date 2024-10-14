@@ -9,3 +9,14 @@ export const fetchCategories = async () => {
       console.error("Error fetching categories", error);
     }
   };
+
+
+export const createCategory = async (title, content) => {
+  try {
+    const response = await axios.post('http://localhost:8000/categories/create', { title, content });
+    return response.data;  
+} catch (err) {
+    console.error('Error creating Category:', err);
+    throw err;  
+}
+}

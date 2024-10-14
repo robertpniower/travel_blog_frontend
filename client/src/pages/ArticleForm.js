@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { fetchCategories } from '../services/categoryServices';
-import { fetchCountries } from '../services/countryServices'
+import { fetchCountries } from '../services/countryServices';
+import { fetchCities } from '../services/countryServices';
 import { Paper, Box, Typography } from '@mui/material';
 
 import InputField from '../components/inputField';
-import DropDown from '../components/dropDown';
+import MultiSelectDropDown from '../components/multiSelectDropDown';
+import SingleSelectDropDown from '../components/singleSelectDropDown';
 
 export default function ArticleForm() {
-    const [categories, setCategories] = useState([]);
+    const [categories, setCategories] = useState([])
     const [countries, setCountries] = useState([]);
-    const [error, setError] = useState(null);
+    const [cities, setCities] = useState([]);
+    const [country, setCountry] = useState('')
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const getCategories = async () => {
             try {
                 const categoriesResponse = await fetchCategories();
                 setCategories(categoriesResponse);
-                console.log(categoriesResponse)
             } catch (err) {
                 setError(err.message);
             }
@@ -26,29 +29,50 @@ export default function ArticleForm() {
             try {
                 const countriesResponse = await fetchCountries();
                 setCountries(countriesResponse);
-                console.log(countriesResponse)
             } catch (err) {
                 setError(err.message);
             }
         };
 
+        
+
         getCategories();
         getCountries();
     }, []);
 
-    const handleAddCategory = (newCategory) => {
-        console.log("New Category Added:", newCategory);
+    const handleGetCountry = async (countryId) => {
+        setCountry(countryId);
+        try {
+            const cityResponse = await fetchCities(countryId); 
+            setCities(cityResponse); 
+            console.log(cityResponse);
+        } catch (err) {
+            setError(err.message);
+        }
     };
+    
 
     return (
         <Paper sx={{ padding: "8px" }}>
             <Box margin='7px'>
-                <Typography>Add Article</Typography>
+                <Typography variant='h4' gutterBottom align="center">Add Article</Typography>
                 <InputField label="Name" margin="normal" />
-                <DropDown type='Category' data={categories} />
-                <DropDown type='Country' data={countries} />
+                <MultiSelectDropDown
+                    type='Category'
+                    data={categories}
+                />
+                <SingleSelectDropDown
+                    type='Country'
+                    data={countries}
+                    sendData={handleGetCountry}
+                />
+                {country && (
+                    <SingleSelectDropDown
+                        type="City"
+                        data={cities}
+                    />
+                )}
             </Box>
         </Paper>
     );
 }
-

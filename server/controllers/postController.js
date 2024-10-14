@@ -59,14 +59,14 @@ class PostController {
                             FROM articles 
                             LEFT JOIN posts ON articles.id = posts.article_id 
                             WHERE articles.id = ?`
-            // Execute the query with the articleId parameter
+
             const [results] = await connection.query(query, [articleId]);
 
             if (results.length === 0) {
                 return res.status(404).json({ message: 'No posts found for this article' });
             }
 
-            // Return the results as a response
+          
             res.status(200).json(results);
         } catch (error) {
             console.error(error);

@@ -14,6 +14,17 @@ class CountryController {
         }
 
     }
+
+    static async addCountry(country_code, country) {
+        try {
+            const query = "INSERT INTO countries (country_code, country) VALUES(?, ?)";
+            const values = [country_code, country];
+            const [result] = await connection.execute(query, values);
+            return result.insertId;
+        } catch (err) {
+            console.error('Error inserting Country: ', err)
+        }
+    }
     
 }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { TextField } from '@mui/material'
 
-export default function inpuField({ label, type = 'text', value, onChange, ...props }) {
+export default function InputField({ label, type = 'text', value = '', onChange, ...props }) {
     return (
         <div>
             <TextField

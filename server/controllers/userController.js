@@ -18,7 +18,7 @@ class UserController {
             console.log('Inserted user with ID:', result.insertId);
             return result.insertId;
         } catch (err) {
-            console.error('Error inserting user:', err);
+            console.error('Error inserting user: ', err);
             throw err;
         }
     }
@@ -30,7 +30,7 @@ class UserController {
             const [rows] = await connection.execute(query, [id]);
             return rows[0];
         } catch (err) {
-            console.error('Error fetching user:', err);
+            console.error('Error fetching user: ', err);
             throw err;
         }
     }
@@ -42,7 +42,7 @@ class UserController {
             const [rows] = await connection.execute(query);
             return rows;
         } catch (err) {
-            console.error('Error fetching users:', err);
+            console.error('Error fetching users: ', err);
             throw err;
         }
     }
@@ -58,7 +58,7 @@ class UserController {
             console.log('Updated user with ID:', id);
             return result.affectedRows;
         } catch (err) {
-            console.error('Error updating user:', err);
+            console.error('Error updating user: ', err);
             throw err;
         }
     }
@@ -71,7 +71,7 @@ class UserController {
             console.log('Deleted user with ID:', id);
             return result.affectedRows;
         } catch (err) {
-            console.error('Error deleting user:', err);
+            console.error('Error deleting user: ', err);
             throw err;
         }
     }

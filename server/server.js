@@ -6,6 +6,7 @@ const postRoutes = require("./routes/postRoutes");
 const articleRoutes = require("./routes/articleRoutes");
 const categoryRoutes = require('./routes/categoryRoutes');
 const countryRoutes = require('./routes/countryRoutes')
+const cityRoutes = require('./routes/cityRoutes')
 require('dotenv').config();
 
 const PORT = process.env.PORT || 8000;
@@ -22,6 +23,7 @@ app.use('/users', userRoutes);
 app.use('/articles', articleRoutes);
 app.use('/categories', categoryRoutes);
 app.use('/countries', countryRoutes);
+app.use('/cities', cityRoutes)
 
 
 
