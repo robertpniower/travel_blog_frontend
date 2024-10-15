@@ -14,7 +14,7 @@ function FeaturedPost(props) {
   const navigate = useNavigate();
 
   const handleArticleClick = (articleId) => {
-    navigate(`/article/${articleId}`); // Navigate to the article page with articleId as a param
+    navigate(`/article/${articleId}`);
   };
 
   return (
@@ -25,7 +25,7 @@ function FeaturedPost(props) {
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
+            justifyContent: 'space-evenly',
             height: '100%'
           }}
           onClick={() => handleArticleClick(post.id)}
@@ -63,7 +63,15 @@ function FeaturedPost(props) {
               alt="Kayak Icon"
             />
           </Box>
-          <CardContent sx={{ flexGrow: 1, mt: 8, textAlign: 'center' }}>
+          <CardContent sx={{
+            mt: 8,
+            textAlign: 'center',
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            height: '100%'
+          }}>
             <Typography component="h2" variant="h5">
               {post.title}
             </Typography>

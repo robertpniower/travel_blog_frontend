@@ -50,10 +50,10 @@ function Header(props) {
           noWrap
           sx={{
             flex: 1,
-            fontFamily: "Gloria Hallelujah", // Google Font
+            fontFamily: "Gloria Hallelujah", 
             fontWeight: '400',
             fontSize: '4.5rem',
-            color: '#1aab71', // Custom color
+            color: '#1aab71', 
             mb: 3,
             mt: 2,
           }}

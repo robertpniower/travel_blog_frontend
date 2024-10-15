@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
     Box, Chip, FormControl, InputLabel, MenuItem, Select, OutlinedInput
 } from '@mui/material';
-import AddItemModal from './addItemModal';
+import AddCountryModal from './addCountryModal';
 
 export default function SingleSelectDropDown({ type, data = [], sendData }) {
     const [selected, setSelected] = useState('');
@@ -52,7 +52,7 @@ export default function SingleSelectDropDown({ type, data = [], sendData }) {
                 </Select>
             </FormControl>
 
-            <AddItemModal openModal={openModal} setOpenModal={setOpenModal} type={type} />
+            <AddCountryModal openModal={openModal} setOpenModal={setOpenModal} type={type} />
         </Box>
     );
 }

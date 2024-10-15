@@ -7,6 +7,7 @@ import { Paper, Box, Typography } from '@mui/material';
 import InputField from '../components/inputField';
 import MultiSelectDropDown from '../components/multiSelectDropDown';
 import SingleSelectDropDown from '../components/singleSelectDropDown';
+import AddCategoryModal from '../components/addCategoryModal';
 
 export default function ArticleForm() {
     const [categories, setCategories] = useState([])
@@ -34,7 +35,7 @@ export default function ArticleForm() {
             }
         };
 
-        
+
 
         getCategories();
         getCountries();
@@ -43,14 +44,14 @@ export default function ArticleForm() {
     const handleGetCountry = async (countryId) => {
         setCountry(countryId);
         try {
-            const cityResponse = await fetchCities(countryId); 
-            setCities(cityResponse); 
+            const cityResponse = await fetchCities(countryId);
+            setCities(cityResponse);
             console.log(cityResponse);
         } catch (err) {
             setError(err.message);
         }
     };
-    
+
 
     return (
         <Paper sx={{ padding: "8px" }}>
@@ -58,13 +59,19 @@ export default function ArticleForm() {
                 <Typography variant='h4' gutterBottom align="center">Add Article</Typography>
                 <InputField label="Name" margin="normal" />
                 <MultiSelectDropDown
-                    type='Category'
+                    type="Category"
                     data={categories}
+                    multiple={true}
+                    setMultiple={setCategories}
+                    ModalComponent={AddCategoryModal}
+                    modalProps={{ type: 'Category' }}
                 />
+
                 <SingleSelectDropDown
                     type='Country'
                     data={countries}
                     sendData={handleGetCountry}
+
                 />
                 {country && (
                     <SingleSelectDropDown

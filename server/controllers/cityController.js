@@ -13,6 +13,19 @@ class CityController {
             res.status(500).json({ error: 'Server error' });
         }
     }
+
+    static async createCity(req, res) {;
+        try {
+            const countryId = req.params.country_id;
+            const query = 'INSERT INTO cities (city_name, country_id) VALUES (?, ?)';
+            const values = [city_name, countryId];
+            const [result] = await connection.execute(query, values);
+            return result.insertId;
+        } catch (err) {
+            console.error('Error inserting City:', err);
+            throw err;
+        }
+    }
 }
 
 module.exports = CityController;

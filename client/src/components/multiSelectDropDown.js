@@ -2,36 +2,30 @@ import React, { useState } from 'react';
 import {
     Box, Chip, FormControl, InputLabel, MenuItem, Select, OutlinedInput
 } from '@mui/material';
-import AddItemModal from './addItemModal';
 
-export default function MultiSelectDropDown({ type, data = [], multiple, setMultiple, sendData }) {
+export default function MultiSelectDropDown({
+    type,
+    data = [],
+    multiple = false,
+    ModalComponent,
+    modalProps = {}
+}) {
     const [selected, setSelected] = useState([]);
-    const [openModal, setOpenModal] = useState(false);
+    const [open, setOpen] = useState(false); // Use 'open' for consistency
 
     const isCategory = type === 'Category';
-    const isCity = type === 'City';
-
 
     const handleChange = (event) => {
-        const {
-            target: { value },
-        } = event;
+        const { target: { value } } = event;
         setSelected(typeof value === 'string' ? value.split(',') : value);
     };
-
-    const handleClick = (item) => {
-        if (sendData) {
-            sendData(item);
-        }
-    };
-
 
     return (
         <Box sx={{ mt: 3 }}>
             <FormControl sx={{ width: '100%' }}>
                 <InputLabel>{type}</InputLabel>
                 <Select
-                    multiple={isCategory || isCity}
+                    multiple={multiple}
                     value={selected}
                     onChange={handleChange}
                     input={<OutlinedInput label={type} />}
@@ -51,13 +45,18 @@ export default function MultiSelectDropDown({ type, data = [], multiple, setMult
                             {isCategory ? item.title : item.city_name}
                         </MenuItem>
                     ))}
-                    <MenuItem onClick={() => setOpenModal(true)}>
+                    <MenuItem onClick={() => {
+                        console.log("Add New clicked"); // Debug to confirm click
+                        setOpen(true);
+                    }}>
                         + Add New {type}
                     </MenuItem>
                 </Select>
             </FormControl>
 
-            <AddItemModal openModal={openModal} setOpenModal={setOpenModal} type={type} />
+            {ModalComponent && (
+                <ModalComponent open={open} setOpen={setOpen} type={type} {...modalProps} />
+            )}
         </Box>
     );
 }

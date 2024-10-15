@@ -12,98 +12,102 @@ export default function Posts() {
     const fetchPosts = async () => {
       try {
         const response = await axios.get('http://localhost:8000/articles/articles');
-        setArticles(response.data); // Set articles to the response data
+        setArticles(response.data);
       } catch (error) {
         console.error("Error fetching articles:", error);
-        setArticles([]); // Set articles to an empty array on error
+        setArticles([]);
       }
     };
     fetchPosts();
   }, []);
 
   const handleOpenArticleForm = () => {
-    navigate('/article-form'); // Change this to the correct path for your article form page
+    navigate('/article-form');
   };
 
   const handleArticleClick = (articleId) => {
-    navigate(`/article/${articleId}`); // Navigate to the article page with articleId as a param
+    navigate(`/article/${articleId}`);
   };
 
   return (
-    <Paper elevation={2} sx={{ p: 3 }}>
+    <Box elevation={2} sx={{ p: 3 }}>
       <Box textAlign="right" sx={{ mb: 2 }}>
-      <Tooltip 
-          title="Add Article" 
+        <Tooltip
+          title="Add Article"
           arrow
           componentsProps={{
             tooltip: {
               sx: {
-                backgroundColor: '#1976d2', // Custom background color for tooltip
-                color: '#fff', // Text color
-                fontSize: '1rem', // Font size
-                borderRadius: '8px', // Rounded corners
-                padding: '8px 16px', // Custom padding
+                backgroundColor: '#1976d2',
+                color: '#fff',
+                fontSize: '1rem',
+                borderRadius: '8px',
+                padding: '8px 16px'
               },
             },
             arrow: {
               sx: {
-                color: '#1976d2', // Match the arrow color with the tooltip background
+                color: '#1976d2',
               },
             },
           }}
         >
-        <IconButton
-          color="primary"
-          onClick={handleOpenArticleForm} // Call the new function here
-          sx={{ backgroundColor: 'primary.light', '&:hover': { backgroundColor: 'primary.main' } }}
-          aria-label="create post"
-        >
-          <AddIcon />
-        </IconButton>
+          <IconButton
+            color="primary"
+            onClick={handleOpenArticleForm}
+            sx={{ backgroundColor: 'primary.light', '&:hover': { backgroundColor: 'primary.main' } }}
+            aria-label="create post"
+          >
+            <AddIcon />
+          </IconButton>
         </Tooltip>
-        
       </Box>
-
-      <Typography variant="h4" gutterBottom align="center">
-        Articles
-      </Typography>
-
+      <Box sx={{ borderBottom: 2, borderColor: 'divider', flexGrow: 1, mb:4, }}>
+        <Typography variant="h3" gutterBottom align="center">
+          Articles
+        </Typography>
+      </Box>
       <Grid container spacing={3}>
         {articles.map((article) => {
           return (
-            <Grid item xs={12} sm={6} md={4} key={article.id} display="flex">
+            <Grid item xs={12} sm={6} md={4} key={article.id} display="flex" mt={4}>
               <CardActionArea>
-              <Card
-                sx={{
-                  width: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  height: '100%'
-                }}
-                onClick={() => handleArticleClick(article.id)}
-              >
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={article.image || '/PANO_20240815_123117.jpg'}
-                  alt={article.title}
-                />
-                <CardContent>
-                  <Typography variant="h6" component="div">
-                    {article.title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {article.content}
-                  </Typography>
-                </CardContent>
-              </Card>
+                <Card
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    height: '100%'
+                  }}
+                  onClick={() => handleArticleClick(article.id)}
+                >
+                  <CardMedia
+                    component="img"
+                    height="140"
+                    image={article.image || '/PANO_20240815_123117.jpg'}
+                    alt={article.title}
+                    sx={{
+                      width: '95%',
+                      height: 200,
+                      m: 2
+                    }}
+                  />
+                  <CardContent>
+                    <Typography variant="h6" component="div">
+                      {article.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {article.content}
+                    </Typography>
+                  </CardContent>
+                </Card>
               </CardActionArea>
-              
+
             </Grid>
           );
         })}
       </Grid>
-    </Paper>
+    </Box>
   );
 }

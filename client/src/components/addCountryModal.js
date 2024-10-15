@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import { createCategory } from '../services/categoryServices';
 
-export default function AddItemModal({ openModal, setOpenModal, type }) {
+export default function AddCountryModal({ openModal, setOpenModal, type }) {
     const [newItem, setNewItem] = useState("");
     const [newContent, setNewContent] = useState("");
     const [countryCode, setCountryCode] = useState('');
