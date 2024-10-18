@@ -5,40 +5,27 @@ import {
     Modal, Box, Typography,
     Button
 } from '@mui/material';
-import { createCategory } from '../services/categoryServices';
 
-export default function AddCountryModal({ openModal, setOpenModal, type }) {
+export default function AddCountryModal({ open, setOpen, type }) {
     const [newItem, setNewItem] = useState("");
-    const [newContent, setNewContent] = useState("");
+    
     const [countryCode, setCountryCode] = useState('');
     const [country, setCountry] = useState('');
 
-    const isCategory = type === 'Category';
-    const isCity = type === 'City';
     const isCountry = type === 'Country';
 
     const handleSubmit = async () => {
-        if (isCountry) {
             try {
                 await addCountry(countryCode, country);
             } catch (err) {
                 console.error("Error adding country:", err);
             }
-        }
-        if (isCategory) {
-            try {
-                await createCategory(newItem, newContent);
-            } catch (err) {
-                console.error("Error adding category:", err);
-            }
-        }
     };
-
 
     return (
         <Modal
-            open={openModal}
-            onClose={() => setOpenModal(false)}
+            open={open}
+            onClose={() => setOpen(false)}
             aria-labelledby="modal-title"
             aria-describedby="modal-description"
         >
@@ -61,17 +48,9 @@ export default function AddCountryModal({ openModal, setOpenModal, type }) {
 
                 <InputField
                     label={`${type} Name`}
-                    value={(isCountry ? country : newItem) || ''}
-                    onChange={(e) => isCountry ? setCountry(e.target.value) : setNewItem(e.target.value)}
+                    value={'country'}
+                    onChange={(e) => setCountry(e.target.value)}
                 />
-
-                {isCategory && (
-                    <InputField
-                        label={`${type} Content`}
-                        value={newContent || ''}
-                        onChange={(e) => setNewContent(e.target.value)}
-                    />
-                )}
 
                 {isCountry && (
                     <InputField
@@ -80,17 +59,15 @@ export default function AddCountryModal({ openModal, setOpenModal, type }) {
                         onChange={(e) => setCountryCode(e.target.value)}
                     />
                 )}
-
-
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-                    <Button onClick={() => setOpenModal(false)} color="primary">
+                    <Button onClick={() => setOpen(false)} color="primary">
                         Cancel
                     </Button>
                     <Button
                         color="primary"
                         onClick={() => {
                             handleSubmit();
-                            setOpenModal(false);
+                            setOpen(false);
                         }}
                     >
                         Add

@@ -14,11 +14,11 @@ class CityController {
         }
     }
 
-    static async createCity(req, res) {;
+    static async createCity(city_name, country_Id) {
         try {
-            const countryId = req.params.country_id;
+            
             const query = 'INSERT INTO cities (city_name, country_id) VALUES (?, ?)';
-            const values = [city_name, countryId];
+            const values = [city_name, country_Id];
             const [result] = await connection.execute(query, values);
             return result.insertId;
         } catch (err) {

@@ -1,30 +1,28 @@
 import React, { useState } from 'react';
-import {
-    Box, Chip, FormControl, InputLabel, MenuItem, Select, OutlinedInput
-} from '@mui/material';
-import AddCountryModal from './addCountryModal';
+import { Box, Chip, FormControl, InputLabel, MenuItem, Select, OutlinedInput } from '@mui/material';
 
-export default function SingleSelectDropDown({ type, data = [], sendData }) {
+export default function SingleSelectDropDown({ 
+    type,
+    data = [],
+    sendData,
+    ModalComponent,
+    modalProps = {}
+}) {
     const [selected, setSelected] = useState('');
-    const [openModal, setOpenModal] = useState(false);
+    const [open, setOpen] = useState(false); 
 
     const isCountry = type === 'Country';
 
     const handleChange = (event) => {
-        const {
-            target: { value },
-        } = event;
+        const { value } = event.target;
         setSelected(value);
         if (sendData) {
-            sendData(value);
+            sendData(value); 
         }
     };
 
-
-    const handleClick = (item) => {
-        if (sendData) {
-            sendData(item);
-        }
+    const handleAddNew = () => {
+        setOpen(true); 
     };
 
     return (
@@ -42,17 +40,18 @@ export default function SingleSelectDropDown({ type, data = [], sendData }) {
                 >
                     {data.map((item) => (
                         <MenuItem key={item.id} value={item.id}>
-                            {isCountry ? item.country : item.city_name} {/* Ensure this correctly maps to your country data */}
+                            {isCountry ? item.country : item.city_name}
                         </MenuItem>
                     ))}
-
-                    <MenuItem onClick={() => setOpenModal(true)}>
+                    <MenuItem onClick={handleAddNew}>
                         + Add New {type}
                     </MenuItem>
                 </Select>
             </FormControl>
 
-            <AddCountryModal openModal={openModal} setOpenModal={setOpenModal} type={type} />
+            {ModalComponent && (
+                <ModalComponent open={open} setOpen={setOpen} type={type} {...modalProps} />
+            )}
         </Box>
     );
 }

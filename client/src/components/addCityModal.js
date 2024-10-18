@@ -1,21 +1,20 @@
+// AddCityModal.js
 import React, { useState } from 'react';
-import {
-    Modal, Box, Typography,
-    Button
-} from '@mui/material';
+import { Modal, Box, Typography, Button } from '@mui/material';
 import InputField from './inputField';
+import { createCity } from '../services/cityServices';
 
-export default function AddCityModal({ open, setOpen, type }) {
-    const [newCity, setNewCity] = useState("");
-    
-   
-    const isCity = type === 'City';
-  
+export default function AddCityModal({ open, setOpen, type, country_Id }) {
+    const [city, setCity] = useState("");
 
     const handleSubmit = async () => {
-        setOpen(false)
+        try {
+            await createCity(city, country_Id); 
+            setOpen(false); 
+        } catch (err) {
+            console.error("Error submitting:", err);
+        }
     };
-
 
     return (
         <Modal
@@ -40,27 +39,16 @@ export default function AddCityModal({ open, setOpen, type }) {
                 <Typography id="modal-title" variant="h6" component="h2" gutterBottom>
                     Add New {type}
                 </Typography>
-
                 <InputField
                     label={`${type} Name`}
-                    value={(newCity) || ''}
-                    onChange={(e) => setNewCity(e.target.value)}
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
                 />
-
-                
-
-
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                     <Button onClick={() => setOpen(false)} color="primary">
                         Cancel
                     </Button>
-                    <Button
-                        color="primary"
-                        onClick={() => {
-                            handleSubmit();
-                            
-                        }}
-                    >
+                    <Button color="primary" onClick={handleSubmit}>
                         Add
                     </Button>
                 </Box>

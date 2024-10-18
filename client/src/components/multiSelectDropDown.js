@@ -46,7 +46,6 @@ export default function MultiSelectDropDown({
                         </MenuItem>
                     ))}
                     <MenuItem onClick={() => {
-                        console.log("Add New clicked"); // Debug to confirm click
                         setOpen(true);
                     }}>
                         + Add New {type}

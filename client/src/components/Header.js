@@ -50,10 +50,10 @@ function Header(props) {
           noWrap
           sx={{
             flex: 1,
-            fontFamily: "Gloria Hallelujah", 
+            fontFamily: "Gloria Hallelujah",
             fontWeight: '400',
             fontSize: '4.5rem',
-            color: '#1aab71', 
+            color: '#1aab71',
             mb: 3,
             mt: 2,
           }}
@@ -83,15 +83,16 @@ function Header(props) {
             value={activeTab}
             onChange={handleTabChange}
             aria-label="sections tabs"
+            
             centered
             sx={{
               '.Mui-selected': {
-                color: '#1aab71', // Active tab color
+                color: '000000', // Active tab color
                 borderBottom: '3px solid #1aab71', // Active tab underline
               },
               '.MuiTab-root': {
                 textTransform: 'none',
-                color: '#1A86AB', // Inactive tab color
+                
                 fontSize: '1rem',
                 fontWeight: 500,
               },
@@ -109,7 +110,7 @@ function Header(props) {
                   flexShrink: 0,
                   mr: 4,
                   '&:hover': {
-                    color: '#1AABA1', // Hover effect color
+                    color: '#62cca3', // Hover effect color
                   },
                 }}
               />

@@ -30,6 +30,12 @@ const fetchData = async () => {
 const defaultTheme = createTheme({
   palette: {
     mode: 'light',
+    primary: {
+      main: '#0052cc',
+    },
+    secondary: {
+      main: '#edf2ff',
+    },
   },
   typography: {
     h1: {

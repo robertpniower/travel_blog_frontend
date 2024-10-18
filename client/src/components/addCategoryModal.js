@@ -17,11 +17,9 @@ export default function AddCategoryModal({ open, setOpen, type }) {
 
     const handleSubmit = async () => {
         try {
-            if (isCountry) {
+        
                 await addCountry(countryCode, country);
-            } else if (isCategory) {
-                await createCategory(newItem, newContent);
-            }
+
             setOpen(false); 
         } catch (err) {
             console.error("Error submitting:", err);
@@ -53,23 +51,16 @@ export default function AddCategoryModal({ open, setOpen, type }) {
                 </Typography>
                 <InputField
                     label={`${type} Name`}
-                    value={(isCountry ? country : newItem) || ''}
+                    value={newItem}
                     onChange={(e) => isCountry ? setCountry(e.target.value) : setNewItem(e.target.value)}
                 />
-                {isCategory && (
-                    <InputField
-                        label={`${type} Content`}
-                        value={newContent || ''}
-                        onChange={(e) => setNewContent(e.target.value)}
-                    />
-                )}
-                {isCountry && (
+                
                     <InputField
                         label="Country Code"
-                        value={countryCode || ''}
+                        value={countryCode}
                         onChange={(e) => setCountryCode(e.target.value)}
                     />
-                )}
+           
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
                     <Button onClick={() => setOpen(false)} color="primary">Cancel</Button>
                     <Button color="primary" onClick={handleSubmit}>Add</Button>
