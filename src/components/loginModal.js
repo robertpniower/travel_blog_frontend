@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Box, Button, Typography, Modal, Grid, IconButton, Avatar } from '@mui/material';
+import { Box, Button, Typography, Modal, Grid, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import InputField from './inputField';
 

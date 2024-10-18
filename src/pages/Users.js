@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Avatar, Paper, Button, Table } from '@mui/material';
+import { Typography, Avatar, Paper, Button, Table } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import SignUpModal from '../components/signUpModal';
-import { textAlign } from '@mui/system';
+
 
 const fetchUsers = async () => {
     try {

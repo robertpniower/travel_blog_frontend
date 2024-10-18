@@ -4,15 +4,12 @@ import {
 } from '@mui/material';
 import InputField from './inputField';
 import { addCountry } from '../services/countryServices';
-import { createCategory } from '../services/categoryServices';
 
 export default function AddCategoryModal({ open, setOpen, type }) {
     const [newItem, setNewItem] = useState("");
-    const [newContent, setNewContent] = useState("");
     const [countryCode, setCountryCode] = useState('');
     const [country, setCountry] = useState('');
-
-    const isCategory = type === 'Category';
+    
     const isCountry = type === 'Country';
 
     const handleSubmit = async () => {

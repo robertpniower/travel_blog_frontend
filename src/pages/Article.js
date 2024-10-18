@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Typography, Card, CardContent, Box, Paper, Grid } from '@mui/material';
+import { Typography,  Box, Paper } from '@mui/material';
 
 import axios from 'axios';
 

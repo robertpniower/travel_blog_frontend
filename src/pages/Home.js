@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { fetchArticles } from '../services/aricleServices';
-import axios from 'axios';
 import { Grid, Typography } from '@mui/material';
 import MainFeaturedPost from '../components/MainFeaturedPost';
 import FeaturedPost from '../components/FeaturedPost';

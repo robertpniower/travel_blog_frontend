@@ -3,7 +3,7 @@ import { TextField } from '@mui/material';
 
 export default function InputField({ label, type = 'text', value = '', onChange, ...props }) {
     return (
-        <div style={{ maxHeight: 600, overflow: 'auto' }}> {/* Adjust maxHeight as needed */}
+        <div style={{ maxHeight: 600, overflow: 'auto' }}> 
             <TextField
                 fullWidth
                 margin="normal"
@@ -12,8 +12,8 @@ export default function InputField({ label, type = 'text', value = '', onChange,
                 type={type}
                 value={value}
                 onChange={onChange}
-                multiline // Allows for multiple lines
-                minRows={8} // Number of visible rows, adjust as needed
+                multiline 
+                minRows={8} 
                 {...props}
             />
         </div>

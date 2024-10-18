@@ -7,8 +7,6 @@ import {
 } from '@mui/material';
 
 export default function AddCountryModal({ open, setOpen, type }) {
-    const [newItem, setNewItem] = useState("");
-    
     const [countryCode, setCountryCode] = useState('');
     const [country, setCountry] = useState('');
 
