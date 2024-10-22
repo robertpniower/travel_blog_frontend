@@ -1,24 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import defaultTheme from './theme';
 import App from './App';
 
 import './index.css'; // Global styles if you have any
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#1976d2',
-    },
-    secondary: {
-      main: '#dc004e',
-    },
-  },
-});
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <App />
     </ThemeProvider>

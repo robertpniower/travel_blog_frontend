@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useFetchData } from '../hooks/useFetchData';
 import { fetchCategories } from '../services/categoryServices';
 import { fetchCountries } from '../services/countryServices';
 import { fetchCities } from '../services/cityServices';
-import { Paper, Box, Typography,  Button } from '@mui/material';
+import { Paper, Box, Typography, Button } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AccordionActions from '@mui/material/AccordionActions';
 
 import InputField from '../components/inputField';
 import MultiSelectDropDown from '../components/multiSelectDropDown';
@@ -15,38 +17,19 @@ import TextInput from '../components/textInput';
 import AddCategoryModal from '../components/addCategoryModal';
 import AddCityModal from '../components/addCityModal';
 import AddCountryModal from '../components/addCountryModal';
+import AddPictureModal from '../components/addPictureModal';
 
 export default function ArticleForm() {
     const [article, setArticle] = useState('');
-    const [title, setTitle] = useState('')
-    const [categories, setCategories] = useState([]);
-    const [countries, setCountries] = useState([]);
+    const [title, setTitle] = useState('');
+    const { data: categories, error: categoryError } = useFetchData(fetchCategories);
+    const { data: countries, error: countryError } = useFetchData(fetchCountries);
     const [cities, setCities] = useState([]);
     const [country, setCountry] = useState('');
-    const [error, setError] = useState('');
-
-    useEffect(() => {
-        const getCategories = async () => {
-            try {
-                const categoriesResponse = await fetchCategories();
-                setCategories(categoriesResponse);
-            } catch (err) {
-                setError(err.message);
-            }
-        };
-
-        const getCountries = async () => {
-            try {
-                const countriesResponse = await fetchCountries();
-                setCountries(countriesResponse);
-            } catch (err) {
-                setError(err.message);
-            }
-        };
-
-        getCategories();
-        getCountries();
-    }, []);
+    const [category, setCategory] = useState('');
+    const [posts, setPosts] = useState([{ title: '', content: '' }]); 
+    const [expanded, setExpanded] = useState(1); 
+    const [open, setOpen] = useState(false);
 
     const handleGetCountry = async (countryId) => {
         setCountry(countryId);
@@ -54,39 +37,65 @@ export default function ArticleForm() {
             const cityResponse = await fetchCities(countryId);
             setCities(cityResponse);
         } catch (err) {
-            setError(err.message);
+            console.error(err.message);
         }
     };
 
+    const handleGetCategory = (categoryId) => {
+        setCategory(categoryId);
+    };
+
+    const addAnotherPost = () => {
+        const newPostIndex = posts.length; 
+        setPosts([...posts, { title: '', content: '' }]); 
+        setExpanded(newPostIndex);
+    };
+
+    const handlePostChange = (index, field, value) => {
+        const updatedPosts = [...posts];
+        updatedPosts[index][field] = value;
+        setPosts(updatedPosts);
+    };
+
+    const deletePost = () => {
+        if (posts.length > 1) {
+            setPosts((prevPosts) => prevPosts.slice(0, -1)); 
+        }
+    };
+
+    const handleAccordionChange = (panel) => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false); 
+    };
+
     return (
-        <Paper sx={{ padding: "8px" }}>
+        <Paper sx={{ padding: '8px' }}>
             <Box>
-                <Typography component='h1' variant='h4' gutterBottom align="center">Add Article</Typography>
+                <Typography component='h1' variant='h4' gutterBottom align='center'>
+                    Add Post
+                </Typography>
             </Box>
             <Box>
-                <Accordion defaultExpanded>
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1-content"
-                        id="panel1-header"
-                    >
-                        <Typography component='h1' variant='h5'>Article</Typography>
+                <Accordion expanded>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls='panel1-content' id='panel1-header'>
+                        <Typography component='h1' variant='h5'>
+                            Add Post
+                        </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <Box component="form" margin='7px'>
-
+                        <Box component='form' margin='7px'>
                             <InputField
-                                label="Article Title"
-                                margin="normal"
+                                label='Article Title'
+                                margin='normal'
                                 value={title}
                                 type='text'
                                 onChange={(e) => setTitle(e.target.value)}
                             />
                             <MultiSelectDropDown
-                                type="Category"
+                                type='Category'
                                 data={categories}
                                 multiple={true}
-                                setMultiple={setCategories}
+                                sendData={handleGetCategory}
+                                setMultiple={handleGetCategory}
                                 ModalComponent={AddCategoryModal}
                                 modalProps={{ type: 'Category' }}
                             />
@@ -99,9 +108,9 @@ export default function ArticleForm() {
                             />
                             {country && (
                                 <SingleSelectDropDown
-                                    type="City"
+                                    type='City'
                                     data={cities}
-                                    sendData={() => { }}
+                                    sendData={() => {}}
                                     ModalComponent={AddCityModal}
                                     modalProps={{ type: 'City', country_Id: country }}
                                 />
@@ -113,50 +122,78 @@ export default function ArticleForm() {
                                 type='text'
                                 onChange={(e) => setArticle(e.target.value)}
                             />
-
                         </Box>
                     </AccordionDetails>
                 </Accordion>
-                <Accordion>
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel2-content"
-                        id="panel2-header"
+
+                {posts.map((post, index) => (
+                    <Accordion
+                        key={index}
+                        expanded={expanded === index}
+                        onChange={handleAccordionChange(index)}
                     >
-                        Post
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Box component="form" margin='7px'>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls={`post-panel-${index}-content`} id={`post-panel-${index}-header`}>
+                            <Typography component='h1' variant='h5'>
+                                {index === 0 ? 'Add Content' : `Add Content ${index + 1}`}
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Box component='form' margin='7px'>
+                                <InputField
+                                    label='Content Title'
+                                    margin='normal'
+                                    value={post.title}
+                                    type='text'
+                                    onChange={(e) => handlePostChange(index, 'title', e.target.value)}
+                                />
+                                <TextInput
+                                    label='Content Text'
+                                    value={post.content}
+                                    type='text'
+                                    onChange={(e) => handlePostChange(index, 'content', e.target.value)}
+                                />
+                            </Box>
+                        </AccordionDetails>
+                        <AccordionActions>
+                            <Box display='flex' flexDirection='row' justifyContent='space-around' sx={{ m: 2 }}>
+                                
+                                <Button 
+                                variant='contained' 
+                                color='secondary' 
+                                size='large'
+                                onClick={() => {
+                                    setOpen(true);
+                                }}
+                                >
+                                    Add Pictures
+                                </Button>
+                               {open &&  (<AddPictureModal open={open} setOpen={setOpen} type={'Picture'}/>)}
+                            </Box>
+                        </AccordionActions>
+                    </Accordion>
+                ))}
 
-                            <InputField
-                                label="Article Title"
-                                margin="normal"
-                                value={title}
-                                type='text'
-                                onChange={(e) => setTitle(e.target.value)}
-                            />
-                            <TextInput
-                                label='Article Text'
-                                value={article}
-                                type='text'
-                                onChange={(e) => setArticle(e.target.value)}
-                            />
-                        </Box>
-                    </AccordionDetails>
-                </Accordion>
-                <Box display='flex' flexDirection='row' justifyContent='space-around' alignItems='center'
-                    sx={{m:'4'}} >
-                    <Button variant="contained" color='secondary'>Cancel</Button>
-                    <Button variant="contained" color='secondary' >Agree</Button>
+                <Box display='flex' flexDirection='column' justifyContent='space-around' sx={{ m: 2, mt: 3 }}>
+                    <Box display='flex' flexDirection='row' justifyContent='space-around' sx={{ p: 4, mb: 5, borderBottom: 2, borderColor: 'divider', flexGrow: 1 }}>
+                        <Button variant='contained' color='success' size='large' onClick={addAnotherPost}>
+                            Add Content
+                        </Button>
+                        <Button variant='contained' color='error' size='large' onClick={deletePost}>
+                            Delete Content
+                        </Button>
+                    </Box>
+
+                    <Box display='flex' flexDirection='row' justifyContent='space-around' sx={{ m: 2 }}>
+                        <Button variant='contained' color='secondary' size='large'>
+                            Cancel
+                        </Button>
+                        <Button variant='contained' color='secondary' size='large'>
+                            Submit
+                        </Button>
+                    </Box>
 
                 </Box>
-
-
-
             </Box>
-
-
-
         </Paper>
     );
 }

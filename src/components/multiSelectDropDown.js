@@ -6,18 +6,22 @@ import {
 export default function MultiSelectDropDown({
     type,
     data = [],
+    sendData,
     multiple = false,
     ModalComponent,
     modalProps = {}
 }) {
     const [selected, setSelected] = useState([]);
-    const [open, setOpen] = useState(false); // Use 'open' for consistency
+    const [open, setOpen] = useState(false);
 
     const isCategory = type === 'Category';
 
     const handleChange = (event) => {
-        const { target: { value } } = event;
-        setSelected(typeof value === 'string' ? value.split(',') : value);
+        const { value } = event.target;
+        setSelected(value);
+        if (sendData) {
+            sendData(value); // Send selected category/city IDs to the parent
+        }
     };
 
     return (
@@ -25,7 +29,7 @@ export default function MultiSelectDropDown({
             <FormControl sx={{ width: '100%' }}>
                 <InputLabel>{type}</InputLabel>
                 <Select
-                    multiple={multiple}
+                    multiple={multiple} // Enables multi-selection for categories
                     value={selected}
                     onChange={handleChange}
                     input={<OutlinedInput label={type} />}

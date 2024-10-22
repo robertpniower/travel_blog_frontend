@@ -53,7 +53,7 @@ function Header(props) {
             fontFamily: "Gloria Hallelujah",
             fontWeight: '400',
             fontSize: '4.5rem',
-            color: '#1aab71',
+            color: '#a6e3ac',
             mb: 3,
             mt: 2,
           }}
@@ -83,12 +83,12 @@ function Header(props) {
             value={activeTab}
             onChange={handleTabChange}
             aria-label="sections tabs"
-            
+            color='secondary'
             centered
             sx={{
               '.Mui-selected': {
-                color: '000000', // Active tab color
-                borderBottom: '3px solid #1aab71', // Active tab underline
+                color: '#323745', 
+                borderBottom: '3px solid #323745', 
               },
               '.MuiTab-root': {
                 textTransform: 'none',
@@ -105,12 +105,13 @@ function Header(props) {
                 component={NavLink}
                 to={section.url}
                 value={index}
+                color='secondary'
                 sx={{
                   p: 2,
                   flexShrink: 0,
                   mr: 4,
                   '&:hover': {
-                    color: '#62cca3', // Hover effect color
+                    color: '#323745', 
                   },
                 }}
               />

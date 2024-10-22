@@ -106,7 +106,7 @@ export default function LoginModal({ showModal, setShowModal, isSignUp, setIsSig
                         />
 
                         <Grid container justifyContent="center" sx={{ mt: 2 }}>
-                            <Button variant="contained" onClick={handleSubmit}>
+                            <Button color='primary' variant="contained" onClick={handleSubmit}>
                                 Log In
                             </Button>
                         </Grid>

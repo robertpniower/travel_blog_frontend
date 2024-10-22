@@ -43,11 +43,12 @@ export default function Posts() {
         <Tooltip
           title="Add Article"
           arrow
+          
           componentsProps={{
             tooltip: {
               sx: {
-                backgroundColor: '#1976d2',
-                color: '#fff',
+                backgroundColor: '#85a1ed',
+                color: 'secondary.dark',
                 fontSize: '1rem',
                 borderRadius: '8px',
                 padding: '8px 16px'
@@ -55,13 +56,13 @@ export default function Posts() {
             },
             arrow: {
               sx: {
-                color: '#1976d2',
+                color: '#85a1ed',
               },
             },
           }}
         >
           <IconButton
-            color="primary"
+            color="secondary.dark"
             onClick={handleOpenArticleForm}
             sx={{ 
               backgroundColor: 'primary.light', 

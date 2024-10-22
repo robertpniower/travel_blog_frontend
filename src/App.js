@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { CssBaseline, createTheme, ThemeProvider, Container } from '@mui/material';
+import defaultTheme from './theme';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
@@ -26,50 +27,6 @@ const fetchData = async () => {
     ],
   }
 };
-
-const defaultTheme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: {
-      main: '#0052cc',
-    },
-    secondary: {
-      main: '#edf2ff',
-    },
-  },
-  typography: {
-    h1: {
-      fontSize: '3rem',
-      '@media (max-width:600px)': {
-        fontSize: '2rem',
-      },
-    },
-    h2: {
-      fontSize: '2.5rem',
-      '@media (max-width:600px)': {
-        fontSize: '1.8rem',
-      },
-    },
-  },
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 960,
-      lg: 1280,
-      xl: 1920,
-    },
-  },
-  components: {
-    MuiContainer: {
-      styleOverrides: {
-        root: {
-          padding: '0px',
-        },
-      },
-    },
-  },
-});
 
 export default function App() {
   const [data, setData] = useState(null);

@@ -101,7 +101,7 @@ const Users = () => {
                                 <TableCell align="right">
                                     <Button
                                         variant="contained"
-                                        color="primary"
+                                        color="success"
                                         sx={{ marginRight: 1.5 }}
                                         onClick={() => handleUpdate(user)}
                                     >
@@ -109,7 +109,7 @@ const Users = () => {
                                     </Button>
                                     <Button
                                         variant="contained"
-                                        color="secondary"
+                                        color="error"
                                         onClick={() => handleDelete(user.id)}
                                     >
                                         Delete
