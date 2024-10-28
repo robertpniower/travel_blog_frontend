@@ -20,15 +20,15 @@ import AddCountryModal from '../components/addCountryModal';
 import AddPictureModal from '../components/addPictureModal';
 
 export default function ArticleForm() {
-    const [article, setArticle] = useState('');
-    const [title, setTitle] = useState('');
+    const [article, setArticle] = useState({title: '', content: ''});
     const { data: categories, error: categoryError } = useFetchData(fetchCategories);
     const { data: countries, error: countryError } = useFetchData(fetchCountries);
     const [cities, setCities] = useState([]);
     const [country, setCountry] = useState('');
     const [category, setCategory] = useState('');
-    const [posts, setPosts] = useState([{ title: '', content: '' }]); 
-    const [expanded, setExpanded] = useState(1); 
+    const [pictures, setPictures] = useState([])
+    const [posts, setPosts] = useState([{ title: '', content: '' }]);
+    const [expanded, setExpanded] = useState(1);
     const [open, setOpen] = useState(false);
 
     const handleGetCountry = async (countryId) => {
@@ -44,10 +44,15 @@ export default function ArticleForm() {
     const handleGetCategory = (categoryId) => {
         setCategory(categoryId);
     };
+    const handleGetPictureURL = async (pictures) => {
+
+        setPictures(pictures)
+        console.log(pictures)
+    }
 
     const addAnotherPost = () => {
-        const newPostIndex = posts.length; 
-        setPosts([...posts, { title: '', content: '' }]); 
+        const newPostIndex = posts.length;
+        setPosts([...posts, { title: '', content: '' }]);
         setExpanded(newPostIndex);
     };
 
@@ -59,26 +64,30 @@ export default function ArticleForm() {
 
     const deletePost = () => {
         if (posts.length > 1) {
-            setPosts((prevPosts) => prevPosts.slice(0, -1)); 
+            setPosts((prevPosts) => prevPosts.slice(0, -1));
         }
     };
 
     const handleAccordionChange = (panel) => (event, isExpanded) => {
-        setExpanded(isExpanded ? panel : false); 
+        setExpanded(isExpanded ? panel : false);
     };
+
+    const handleSubmit = () => {
+
+    }
 
     return (
         <Paper sx={{ padding: '8px' }}>
             <Box>
                 <Typography component='h1' variant='h4' gutterBottom align='center'>
-                    Add Post
+                    Add Article
                 </Typography>
             </Box>
             <Box>
                 <Accordion expanded>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls='panel1-content' id='panel1-header'>
                         <Typography component='h1' variant='h5'>
-                            Add Post
+                            Add Article
                         </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
@@ -86,9 +95,9 @@ export default function ArticleForm() {
                             <InputField
                                 label='Article Title'
                                 margin='normal'
-                                value={title}
+                                value={article.title}
                                 type='text'
-                                onChange={(e) => setTitle(e.target.value)}
+                                onChange={(e) => setArticle({ ...article, title: e.target.value})}
                             />
                             <MultiSelectDropDown
                                 type='Category'
@@ -110,7 +119,7 @@ export default function ArticleForm() {
                                 <SingleSelectDropDown
                                     type='City'
                                     data={cities}
-                                    sendData={() => {}}
+                                    sendData={() => { }}
                                     ModalComponent={AddCityModal}
                                     modalProps={{ type: 'City', country_Id: country }}
                                 />
@@ -118,10 +127,22 @@ export default function ArticleForm() {
 
                             <TextInput
                                 label='Article Text'
-                                value={article}
+                                value={article.content}
                                 type='text'
-                                onChange={(e) => setArticle(e.target.value)}
+                                onChange={(e) => setArticle({ ...article, content: e.target.value})}
                             />
+                        </Box>
+                        <Box display='flex' flexDirection='row' justifyContent='flex-end' sx={{ m: 2 }}>
+                            <Button
+                                variant='contained'
+                                color='secondary'
+                                size='large'
+                                onClick={() => {
+                                    setOpen(true);
+                                }}
+                            >
+                                Add Pictures
+                            </Button>
                         </Box>
                     </AccordionDetails>
                 </Accordion>
@@ -134,20 +155,20 @@ export default function ArticleForm() {
                     >
                         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls={`post-panel-${index}-content`} id={`post-panel-${index}-header`}>
                             <Typography component='h1' variant='h5'>
-                                {index === 0 ? 'Add Content' : `Add Content ${index + 1}`}
+                                {index === 0 ? 'Add Post' : `Add Content ${index + 1}`}
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <Box component='form' margin='7px'>
                                 <InputField
-                                    label='Content Title'
+                                    label='Post Title'
                                     margin='normal'
                                     value={post.title}
                                     type='text'
                                     onChange={(e) => handlePostChange(index, 'title', e.target.value)}
                                 />
                                 <TextInput
-                                    label='Content Text'
+                                    label='Post Text'
                                     value={post.content}
                                     type='text'
                                     onChange={(e) => handlePostChange(index, 'content', e.target.value)}
@@ -155,19 +176,18 @@ export default function ArticleForm() {
                             </Box>
                         </AccordionDetails>
                         <AccordionActions>
-                            <Box display='flex' flexDirection='row' justifyContent='space-around' sx={{ m: 2 }}>
-                                
-                                <Button 
-                                variant='contained' 
-                                color='secondary' 
-                                size='large'
-                                onClick={() => {
-                                    setOpen(true);
-                                }}
+                            <Box display='flex' flexDirection='row' justifyContent='flex-end' sx={{ m: 2 }}>
+                                <Button
+                                    variant='contained'
+                                    color='secondary'
+                                    size='large'
+                                    onClick={() => {
+                                        setOpen(true);
+                                    }}
                                 >
                                     Add Pictures
                                 </Button>
-                               {open &&  (<AddPictureModal open={open} setOpen={setOpen} type={'Picture'}/>)}
+                                {open && (<AddPictureModal open={open} setOpen={setOpen} sendData={handleGetPictureURL} />)}
                             </Box>
                         </AccordionActions>
                     </Accordion>
@@ -187,7 +207,12 @@ export default function ArticleForm() {
                         <Button variant='contained' color='secondary' size='large'>
                             Cancel
                         </Button>
-                        <Button variant='contained' color='secondary' size='large'>
+                        <Button
+                            variant='contained'
+                            color='secondary'
+                            size='large'
+                            onClick={handleSubmit}
+                            >
                             Submit
                         </Button>
                     </Box>

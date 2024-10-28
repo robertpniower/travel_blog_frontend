@@ -1,19 +1,19 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000/images'; 
 
-// Function to upload multiple pictures
+const URL = `http://localhost:8000`; 
+
 export const uploadPictures = async (files) => {
     const formData = new FormData();
     files.forEach((file) => {
-        formData.append('files', file);  // Change 'images' to 'files'
-
+        formData.append('files', file);  
     });
 
-    console.log('Uploading files:', files);  // Log the files being uploaded
+    console.log('Uploading files:', files);  
+   
 
     try {
-        const response = await axios.post(`${API_URL}/upload`, formData, {
+        const response = await axios.post(`${URL}/images/upload`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },

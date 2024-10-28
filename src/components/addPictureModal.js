@@ -4,10 +4,13 @@ import {
 } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import CloseIcon from '@mui/icons-material/Close';
+
+import InputField from './inputField';
 import { uploadPictures } from '../services/pictureServices'; 
 
-export default function AddPictureModal({ open, setOpen }) {
+export default function AddPictureModal({ open, setOpen, sendData }) {
     const [files, setFiles] = useState([]);
+    const [picture, setPicture] = useState('')
     const [errorMessage, setErrorMessage] = useState('');
 
     const onDrop = useCallback((acceptedFiles) => {
@@ -48,8 +51,8 @@ export default function AddPictureModal({ open, setOpen }) {
         try {
             const result = await uploadPictures(files);
             console.log('Upload successful:', result);
-            setOpen(false); // Close modal after successful upload
-            // Optionally, reset files or handle additional logic here
+            sendData(result)
+            setOpen(false); 
             setFiles([]);
         } catch (error) {
             setErrorMessage(error.message);
@@ -80,7 +83,7 @@ export default function AddPictureModal({ open, setOpen }) {
                     justifyContent: 'space-between',
                 }}
             >
-                <Typography id="modal-title" variant="h6" gutterBottom>
+                <Typography id="modal-title" component="h1" variant="h6" gutterBottom>
                     Upload Pictures
                 </Typography>
 
@@ -108,6 +111,13 @@ export default function AddPictureModal({ open, setOpen }) {
                         Drag & drop pictures here, or click to select files (JPEG, PNG, GIF, WebP)
                     </Typography>
                 </Box>
+                <InputField
+                    label='Picture Title'
+                    margin='normal'
+                    value={picture.title}
+                    type='text'
+                    onChange={(e) => setPicture(e.target.value)}
+                />
                 <Box
                     sx={{
                         display: 'flex',
