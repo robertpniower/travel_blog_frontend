@@ -1,17 +1,26 @@
 import React, { useState, useCallback } from 'react';
 import {
-    Modal, Box, Typography, Button, IconButton, Alert
+    Modal, Box, Typography, Button, IconButton, Alert, TextField
 } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import CloseIcon from '@mui/icons-material/Close';
 
 import InputField from './inputField';
-import { uploadPictures } from '../services/pictureServices'; 
+import { uploadPictures } from '../services/pictureServices';
 
 export default function AddPictureModal({ open, setOpen, sendData }) {
     const [files, setFiles] = useState([]);
-    const [picture, setPicture] = useState('')
+    const [pictureData, setPictureData] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
+
+    const handlePictureDataChange = (index, field, value) => {
+        const updatedPictures = [...pictureData];
+        updatedPictures[index] = {
+            ...updatedPictures[index],
+            [field]: value,
+        };
+        setPictureData(updatedPictures);
+    };
 
     const onDrop = useCallback((acceptedFiles) => {
         setErrorMessage('');
@@ -19,6 +28,10 @@ export default function AddPictureModal({ open, setOpen, sendData }) {
             Object.assign(file, { preview: URL.createObjectURL(file) })
         );
         setFiles((prevFiles) => [...prevFiles, ...filesWithPreview]);
+
+        // Initialize picture data for each new file
+        const newPictureData = acceptedFiles.map(() => ({ title: '', content: '' }));
+        setPictureData((prevData) => [...prevData, ...newPictureData]);
     }, []);
 
     const onDropRejected = () => {
@@ -37,8 +50,12 @@ export default function AddPictureModal({ open, setOpen, sendData }) {
         multiple: true,
     });
 
-    const handleFileRemove = (fileName) => {
-        setFiles(files.filter(file => file.name !== fileName));
+    const handleFileRemove = (fileIndex) => {
+        const updatedFiles = files.filter((_, index) => index !== fileIndex);
+        setFiles(updatedFiles);
+
+        const updatedPictureData = pictureData.filter((_, index) => index !== fileIndex);
+        setPictureData(updatedPictureData);
     };
 
     React.useEffect(() => {
@@ -49,11 +66,12 @@ export default function AddPictureModal({ open, setOpen, sendData }) {
 
     const handleUpload = async () => {
         try {
-            const result = await uploadPictures(files);
+            const result = await uploadPictures(files, pictureData);
             console.log('Upload successful:', result);
-            sendData(result)
-            setOpen(false); 
+            sendData(result);
+            setOpen(false);
             setFiles([]);
+            setPictureData([]);
         } catch (error) {
             setErrorMessage(error.message);
         }
@@ -73,14 +91,14 @@ export default function AddPictureModal({ open, setOpen, sendData }) {
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
                     width: 600,
-                    height: 500,
+                    height: 'auto',
                     bgcolor: 'background.paper',
                     borderRadius: 2,
                     boxShadow: 24,
                     p: 4,
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'space-between',
+                    gap: 2,
                 }}
             >
                 <Typography id="modal-title" component="h1" variant="h6" gutterBottom>
@@ -96,39 +114,22 @@ export default function AddPictureModal({ open, setOpen, sendData }) {
                     {...getRootProps()}
                     sx={{
                         border: '2px dashed #3a20e3',
-                        padding: '40px',
+                        padding: '50px',
                         textAlign: 'center',
                         cursor: 'pointer',
                         flexGrow: 1,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        mb: 2,
                     }}
                 >
                     <input {...getInputProps()} />
-                    <Typography color='#3a20e3'>
-                        Drag & drop pictures here, or click to select files (JPEG, PNG, GIF, WebP)
-                    </Typography>
+                    <Button color='primary' variant='outlined'>Select or Drag and drop Pictures</Button>
                 </Box>
-                <InputField
-                    label='Picture Title'
-                    margin='normal'
-                    value={picture.title}
-                    type='text'
-                    onChange={(e) => setPicture(e.target.value)}
-                />
-                <Box
-                    sx={{
-                        display: 'flex',
-                        overflowX: 'auto',
-                        gap: 2,
-                        mb: 2,
-                    }}
-                >
-                    {files.map((file, index) => (
+
+                {files.map((file, index) => (
+                    <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                         <Box
-                            key={index}
                             sx={{
                                 position: 'relative',
                                 width: 100,
@@ -136,9 +137,6 @@ export default function AddPictureModal({ open, setOpen, sendData }) {
                                 borderRadius: 1,
                                 overflow: 'hidden',
                                 border: '1px solid #ddd',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
                             }}
                         >
                             <img
@@ -155,28 +153,37 @@ export default function AddPictureModal({ open, setOpen, sendData }) {
                                     backgroundColor: 'rgba(0, 0, 0, 0.5)',
                                     '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.7)' }
                                 }}
-                                onClick={() => handleFileRemove(file.name)}
+                                onClick={() => handleFileRemove(index)}
                                 size="small"
                             >
                                 <CloseIcon fontSize="small" />
                             </IconButton>
                         </Box>
-                    ))}
-                </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button
-                        onClick={() => setOpen(false)}
-                        variant='contained'
-                        color="error"
-                        sx={{ mr: 2 }}
-                    >
+                        <Box sx={{ flex: 1 }}>
+                            <InputField
+                                label="Title"
+                                fullWidth
+                                value={pictureData[index]?.title || ''}
+                                onChange={(e) => handlePictureDataChange(index, 'title', e.target.value)}
+                            />
+                            <InputField
+                                label="Description"
+                                fullWidth
+                                multiline
+                                rows={2}
+                                sx={{ mt: 1 }}
+                                value={pictureData[index]?.content || ''}
+                                onChange={(e) => handlePictureDataChange(index, 'content', e.target.value)}
+                            />
+                        </Box>
+                    </Box>
+                ))}
+
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+                    <Button onClick={() => setOpen(false)} variant='contained' color="error">
                         Cancel
                     </Button>
-                    <Button
-                        color="success"
-                        variant='contained'
-                        onClick={handleUpload}
-                    >
+                    <Button color="success" variant='contained' onClick={handleUpload}>
                         Upload
                     </Button>
                 </Box>
