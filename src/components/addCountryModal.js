@@ -46,7 +46,7 @@ export default function AddCountryModal({ open, setOpen, type }) {
 
                 <InputField
                     label={`${type} Name`}
-                    value={'country'}
+                    value={country}
                     onChange={(e) => setCountry(e.target.value)}
                 />
 

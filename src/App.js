@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { CssBaseline, createTheme, ThemeProvider, Container } from '@mui/material';
+import { CssBaseline, ThemeProvider, Container } from '@mui/material';
 import defaultTheme from './theme';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -64,16 +64,16 @@ export default function App() {
               }}
             >
               <Routes>
-                {/* Render the component for each section dynamically */}
                 {data.sections.map((section) => (
                   <Route
                     key={section.title}
                     path={section.url}
-                    element={<section.component />} // Render the component based on section data
+                    element={<section.component />}
                   />
                 ))}
                  <Route path="/article/:articleId" element={<Article />} />
                  <Route path="/article-form" element={<ArticleForm />} />
+                 <Route path='("/article/:country_id' element={<Posts/>}/>
               </Routes>
              
             </Container>
