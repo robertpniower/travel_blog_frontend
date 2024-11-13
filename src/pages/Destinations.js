@@ -27,7 +27,7 @@ function Destination() {
         sx={{ mb: 2 }}
       >
         <Typography variant="h3" gutterBottom align="center" sx={{ flexGrow: 1 }}>
-          Travel Guide {country.country || ''} {/* Fallback to 'Unknown Country' */}
+          Travel Guide {country.country}
         </Typography>
         <Tooltip
           title="Add Article"
