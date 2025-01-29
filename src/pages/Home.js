@@ -16,6 +16,7 @@ const Home = () => {
       try {
         const articlesWithIcons = await fetchArticles();
         setArticles(articlesWithIcons);
+        console.log(`Articles: ${articlesWithIcons.image}`)
       } catch (err) {
         setError(err.message);
       } finally {

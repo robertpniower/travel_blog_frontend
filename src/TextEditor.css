@@ -1,0 +1,26 @@
+/* TextEditor.css */
+img {
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+
+  .DraftEditor-root span[data-font-size='FONTSIZE-12px'] {
+    font-size: 12px;
+  }
+  .DraftEditor-root span[data-font-size='FONTSIZE-14px'] {
+    font-size: 14px;
+  }
+  .DraftEditor-root span[data-font-size='FONTSIZE-16px'] {
+    font-size: 16px;
+  }
+  .DraftEditor-root span[data-font-size='FONTSIZE-18px'] {
+    font-size: 18px;
+  }
+  .DraftEditor-root span[data-font-size='FONTSIZE-24px'] {
+    font-size: 24px;
+  }
+  
+  

@@ -6,23 +6,25 @@ export default function SingleSelectDropDown({
     data = [],
     sendData,
     ModalComponent,
-    modalProps = {}
+    modalProps = {},
+    onAdd // New prop for refreshing data
 }) {
-    const [selected, setSelected] = useState('');
-    const [open, setOpen] = useState(false); 
+    const [selected, setSelected] = useState(null);
+    const [open, setOpen] = useState(false);
 
     const isCountry = type === 'Country';
 
     const handleChange = (event) => {
         const { value } = event.target;
-        setSelected(value);
+        const selectedItem = data.find(item => item.id === value);
+        setSelected(selectedItem);
         if (sendData) {
-            sendData(value); 
+            sendData(selectedItem);
         }
     };
 
     const handleAddNew = () => {
-        setOpen(true); 
+        setOpen(true);
     };
 
     return (
@@ -30,7 +32,7 @@ export default function SingleSelectDropDown({
             <FormControl sx={{ width: '100%' }}>
                 <InputLabel>{type}</InputLabel>
                 <Select
-                    value={selected}
+                    value={selected ? selected.id : ''}
                     onChange={handleChange}
                     input={<OutlinedInput label={type} />}
                     renderValue={(selected) => {
@@ -50,7 +52,13 @@ export default function SingleSelectDropDown({
             </FormControl>
 
             {ModalComponent && (
-                <ModalComponent open={open} setOpen={setOpen} type={type} {...modalProps} />
+                <ModalComponent
+                    open={open}
+                    setOpen={setOpen}
+                    type={type}
+                    {...modalProps}
+                    onAdd={onAdd} // Pass the onAdd prop to the ModalComponent
+                />
             )}
         </Box>
     );

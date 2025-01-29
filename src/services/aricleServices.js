@@ -11,16 +11,16 @@ export const fetchArticles = async () => {
           const iconResponse = await axios.get(`http://localhost:8000/articles/articles/icon/${article.id}`);
           return {
             ...article,
-            image: iconResponse.data[0].file_path,
+            image: iconResponse.data[0].url,
           };
         } catch (iconError) {
           console.error(`Error fetching icon for article ${article.id}:`, iconError);
           return {
             ...article,
-            image: '/icons/007-backpack.png',
+            image: 'icons/007-backpack.png',
           };
         }
-      })
+      }) 
     );
 
     return articlesWithIcons;

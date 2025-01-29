@@ -4,7 +4,7 @@ import { Modal, Box, Typography, Button } from '@mui/material';
 import InputField from './inputField';
 import { createCity } from '../services/cityServices';
 
-export default function AddCityModal({ open, setOpen, type, country_Id }) {
+export default function CityModal({ open, setOpen, type, country_Id }) {
     const [city, setCity] = useState("");
 
     const handleSubmit = async () => {

@@ -4,8 +4,6 @@ import { CssBaseline, ThemeProvider, Container } from '@mui/material';
 import defaultTheme from './theme';
 import Header from './components/Header';
 import Footer from './components/Footer';
-
-
 import Home from './pages/Home';
 import Users from './pages/Users';
 import About from './pages/About'; // Example component for the About page
@@ -14,6 +12,7 @@ import Destinations from './pages/Destinations'; // Example component for the De
 import Travel from './pages/Travel'; // Example component for the Travel page
 import Article from './pages/Article';
 import ArticleForm from './pages/ArticleForm'
+import ArticleEditor from './pages/ArticleEditor';
 
 const fetchData = async () => {
   return {
@@ -74,6 +73,7 @@ export default function App() {
                  <Route path="/article/:articleId" element={<Article />} />
                  <Route path="/article-form" element={<ArticleForm />} />
                  <Route path='("/article/:country_id' element={<Posts/>}/>
+                 <Route path="/article-editor" element={<ArticleEditor />} />
               </Routes>
              
             </Container>

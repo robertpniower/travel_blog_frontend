@@ -99,7 +99,7 @@ function FeaturedPost(props) {
 FeaturedPost.propTypes = {
   post: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    date: PropTypes.string.isRequired,
+    
     content: PropTypes.string.isRequired,
 
     image: PropTypes.string,
